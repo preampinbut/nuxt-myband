@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@layer base {
+
+  html,
+  body {
+    font-family: "Big Shoulders", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+}
