@@ -9,10 +9,25 @@
       class="popup-handler"
       @mousedown="startDrag"
       @touchstart="startDrag"
+    />
+    <div class="popup-body">{{ message }}</div>
+    <div
+      v-if="actions"
+      class="popup-action"
     >
-      Drag me
+      <a
+        v-if="actions.y"
+        :href="actions.y"
+      >
+        <button>action(Y)</button>
+      </a>
+      <a
+        v-if="actions.n"
+        :href="actions.n"
+      >
+        <button>action(N)</button>
+      </a>
     </div>
-    <div class="popup-body">Body {{ message }}</div>
   </div>
 </template>
 
@@ -37,6 +52,13 @@ const props = defineProps({
     required: false,
   },
   message: String,
+  actions: {
+    type: Object as PropType<{
+      y?: string;
+      n?: string;
+    }>,
+    required: false,
+  },
 });
 
 const isTransparent = ref(props.fadeIn !== 0);
@@ -56,7 +78,7 @@ onMounted(() => {
 });
 
 const width = 200;
-const height = 40;
+const height = 60;
 const position = ref({
   x: props.startPosition ? props.startPosition.x - width / 2 : 0,
   y: props.startPosition ? props.startPosition.y - height / 2 : 0,
@@ -144,7 +166,7 @@ const zIndexToFront = (event: MouseEvent | TouchEvent) => {
 }
 
 .popup-handler {
-  @apply p-1;
+  @apply h-8;
   @apply bg-zinc-200;
 
   @apply select-none;
@@ -160,10 +182,27 @@ const zIndexToFront = (event: MouseEvent | TouchEvent) => {
   @apply bg-white;
 
   @apply w-[v-bind(width+'px')];
-  @apply h-[v-bind(height+'px')];
+  @apply max-h-[v-bind(height+'px')];
 
-  @apply overflow-hidden;
   @apply text-ellipsis;
-  @apply whitespace-nowrap;
+  @apply line-clamp-2;
+}
+
+.popup-action {
+  @apply p-2;
+  @apply bg-white;
+
+  @apply flex;
+  @apply justify-center;
+  @apply gap-1;
+}
+
+.popup-action button {
+  @apply border;
+  @apply px-2;
+  @apply py-1;
+
+  @apply text-sm;
+  @apply cursor-pointer;
 }
 </style>

@@ -23,6 +23,7 @@
       :message="popup.message"
       :fade-in="popup.fadeIn ?? 0"
       :start-position="popup.startPosition"
+      :actions="popup.actions"
     />
   </div>
 </template>
@@ -72,6 +73,9 @@ onMounted(() => {
         x: getPopupWidthFromPercentage(75),
         y: getPopupHeightFromPercentage(75),
       },
+      actions: {
+        y: "#",
+      },
     },
     {
       message: "wowowowowow",
@@ -90,6 +94,10 @@ onMounted(() => {
       startPosition: {
         x: getPopupWidthFromPercentage(80),
         y: getPopupHeightFromPercentage(80),
+      },
+      actions: {
+        y: "#",
+        n: "#",
       },
     },
   ];
