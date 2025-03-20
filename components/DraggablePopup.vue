@@ -14,6 +14,8 @@
       <button
         class="popup-handler-close"
         @click="closePopup"
+        @mousedown.stop
+        @touchstart.stop
       >
         x
       </button>
