@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['popup', opacity]"
+    :class="['popup', opacity, hidden]"
     @mousedown="zIndexToFront"
     @touchstart="zIndexToFront"
     :style="{ top: position.y + 'px', left: position.x + 'px', zIndex: zIndex }"
@@ -9,7 +9,15 @@
       class="popup-handler"
       @mousedown="startDrag"
       @touchstart="startDrag"
-    />
+    >
+      <h6 v-if="title">{{ title }}</h6>
+      <button
+        class="popup-handler-close"
+        @click="closePopup"
+      >
+        x
+      </button>
+    </div>
     <div class="popup-body">{{ message }}</div>
     <div
       v-if="actions"
@@ -51,6 +59,10 @@ const props = defineProps({
     default: 0,
     required: false,
   },
+  title: {
+    type: String,
+    required: false,
+  },
   message: String,
   actions: {
     type: Object as PropType<{
@@ -66,13 +78,18 @@ const opacity = computed(() =>
   isTransparent.value ? "opacity-0" : "opacity-100",
 );
 
+const hidden = ref("");
+const closePopup = () => {
+  isTransparent.value = true;
+  setTimeout(() => {
+    hidden.value = "hidden";
+  }, 700);
+};
+
 onMounted(() => {
   if (props.fadeIn !== 0) {
-    const interval = setInterval(() => {
+    setTimeout(() => {
       isTransparent.value = false;
-      return () => {
-        clearInterval(interval);
-      };
     }, props.fadeIn);
   }
 });
@@ -168,13 +185,28 @@ const zIndexToFront = (event: MouseEvent | TouchEvent) => {
 .popup-handler {
   @apply h-8;
   @apply bg-zinc-200;
-
   @apply select-none;
   @apply cursor-grab;
 }
 
 .popup-handler:active {
   @apply cursor-grabbing;
+}
+
+.popup-handler h6 {
+  @apply inline-block;
+  @apply mt-1;
+  @apply ml-1;
+}
+
+.popup-handler-close {
+  @apply px-1.5;
+  @apply mt-0.5;
+  @apply mr-0.5;
+  @apply border;
+  @apply float-right;
+
+  @apply cursor-pointer;
 }
 
 .popup-body {

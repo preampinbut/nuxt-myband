@@ -20,6 +20,7 @@
     <DraggablePopup
       v-for="(popup, index) in popups"
       :key="index"
+      :title="popup.title"
       :message="popup.message"
       :fade-in="popup.fadeIn ?? 0"
       :start-position="popup.startPosition"
@@ -66,6 +67,7 @@ const getPopupHeightFromPercentage = (percentage: number): number => {
 onMounted(() => {
   popups.value = [
     {
+      title: "hello world",
       message: "hello world",
       popupType: "dialog",
       fadeIn: 200,
