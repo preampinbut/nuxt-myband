@@ -158,18 +158,10 @@ const stopDrag = () => {
   document.removeEventListener("touchend", stopDrag);
 };
 
+const { bringToFront } = useZIndex();
 const zIndex = ref(100);
-const zIndexToFront = (event: MouseEvent | TouchEvent) => {
-  const popups = document.getElementsByClassName(
-    "popup",
-  ) as HTMLCollectionOf<HTMLElement>;
-  for (let i = 0; i < popups.length; i++) {
-    popups[i].style.zIndex = "100";
-  }
-
-  const target = event.currentTarget as HTMLElement;
-  target.style.zIndex = "1000";
-  zIndex.value = 1000;
+const zIndexToFront = () => {
+  zIndex.value = bringToFront();
 };
 </script>
 
